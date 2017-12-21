@@ -9,10 +9,10 @@ $ ./gradlew appRun
 ### Test API
 * Get all notes
     - Method: `GET`
-    - URL: `localhost:8080/api/notes`
+    - URL: `localhost:8080/api/v1/notes`
     - Response body data type: Plain Text
 * Add new note
     - Method: `POST`
-    - URL: `localhost:8080/api/notes`
+    - URL: `localhost:8080/api/v1/notes`
     - Request body data type: Plain Text
     - Response body data type: Plain Text

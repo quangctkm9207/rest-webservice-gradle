@@ -4,6 +4,6 @@
 </head>
 <body>
 <h2>REST Webservice example</h2>
-<a href="api/notes">All notes</a>
+<a href="api/v1/notes">All notes</a>
 </body>
 </html>
