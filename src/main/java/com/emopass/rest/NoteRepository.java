@@ -1,16 +1,15 @@
 package com.emopass.rest;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class NoteRepository {
-
-  private List<Note> notes;
-
+public class NoteRepository implements NoteDatastore{
+  private NoteDatabase database;
   private static NoteRepository INSTANCE;
 
   private NoteRepository() {
-    notes = new LinkedList<>();
+    this.database = NoteDatabase.getInstance();
+    this.database.connect();
+    this.database.createTableIfNotExists();
   }
 
   public static NoteRepository getInstance() {
@@ -20,47 +19,28 @@ public class NoteRepository {
     return INSTANCE;
   }
 
+  @Override
   public List<Note> getNotes() {
-    return notes;
+    return database.getNotes();
   }
 
+  @Override
   public int addNote(String content) {
-    int noteId = getGeneratedId();
-    Note note = new Note(noteId, content);
-    notes.add(note);
-    return noteId;
+    return database.addNote(content);
   }
 
+  @Override
   public Note getNote(int noteId) {
-    for (Note note : notes) {
-      if (noteId == note.getId()) {
-        return note;
-      }
-    }
-    return null;
+    return database.getNote(noteId);
   }
 
+  @Override
   public boolean updateNote(int noteId, String newContent) {
-    Note note = getNote(noteId);
-    if (note != null) {
-      note.setContent(newContent);
-      return true;
-    } else {
-      return false;
-    }
+    return database.updateNote(noteId, newContent);
   }
 
+  @Override
   public boolean deleteNote(int noteId) {
-    Note note = getNote(noteId);
-    if (note != null) {
-      notes.remove(note);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  private int getGeneratedId() {
-    return notes.size() + 1;
+    return database.deleteNote(noteId);
   }
 }

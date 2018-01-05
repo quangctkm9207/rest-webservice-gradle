@@ -20,6 +20,8 @@ dependencies {
   compile "org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion"
   compile "javax.servlet:javax.servlet-api:4.0.0-b07"
 
+  compile "postgresql:postgresql:9.1-901-1.jdbc4"
+
   testCompile "junit:junit:4.12"
 }
 
