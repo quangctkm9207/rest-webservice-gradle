@@ -7,8 +7,6 @@ public class NoteRepository implements NoteDatastore{
 
   public NoteRepository(NoteDatabase noteDatabase) {
     this.database = noteDatabase;
-    this.database.connect();
-    this.database.createTableIfNotExists();
   }
 
   @Override
