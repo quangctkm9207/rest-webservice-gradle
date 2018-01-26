@@ -15,20 +15,12 @@ public class Note {
     return id;
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public String getContent() {
     return content;
   }
 
-  public void setContent(String content) {
-    this.content = content;
-  }
-
   @Override public String toString() {
-    return id + ". " + content;
+    return getId() + ". " + getContent();
   }
 
   @Override public boolean equals(Object obj) {
