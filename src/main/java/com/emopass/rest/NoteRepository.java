@@ -4,19 +4,11 @@ import java.util.List;
 
 public class NoteRepository implements NoteDatastore{
   private NoteDatabase database;
-  private static NoteRepository INSTANCE;
 
-  private NoteRepository() {
-    this.database = NoteDatabase.getInstance();
+  public NoteRepository(NoteDatabase noteDatabase) {
+    this.database = noteDatabase;
     this.database.connect();
     this.database.createTableIfNotExists();
-  }
-
-  public static NoteRepository getInstance() {
-    if (INSTANCE == null) {
-      INSTANCE = new NoteRepository();
-    }
-    return INSTANCE;
   }
 
   @Override

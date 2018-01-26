@@ -16,12 +16,12 @@ import javax.ws.rs.core.Response;
 @Path("notes")
 public class NoteResource {
   private static final String NOTE_LIST_HEADER = "Note list: ";
-
+  private NoteRepository noteRepository = Injection.provideNoteRepository();
   @GET
   @Path("/")
   @Produces(MediaType.TEXT_PLAIN)
   public Response getNotes() {
-    List<Note> notes = NoteRepository.getInstance().getNotes();
+    List<Note> notes = noteRepository.getNotes();
     StringBuilder messageBuilder = new StringBuilder(NOTE_LIST_HEADER);
     for (Note note : notes) {
       messageBuilder.append("\n");
@@ -34,7 +34,7 @@ public class NoteResource {
   @Path("/")
   @Consumes(MediaType.TEXT_PLAIN)
   public Response addNote(String content) {
-    int noteId = NoteRepository.getInstance().addNote(content);
+    int noteId = noteRepository.addNote(content);
     return Response.created(URI.create("/api/v1/notes/" + noteId)).build();
   }
 
@@ -42,7 +42,7 @@ public class NoteResource {
   @Path("/{noteId}")
   @Produces(MediaType.TEXT_PLAIN)
   public Response getNote(@PathParam("noteId") int noteId) {
-    Note note = NoteRepository.getInstance().getNote(noteId);
+    Note note = noteRepository.getNote(noteId);
     if (note != null) {
       return Response.ok(note.toString()).build();
     } else {
@@ -54,9 +54,9 @@ public class NoteResource {
   @Path("/{noteId}")
   @Consumes(MediaType.TEXT_PLAIN)
   public Response updateNote(@PathParam("noteId") int noteId, String newContent) {
-    boolean success = NoteRepository.getInstance().updateNote(noteId, newContent);
+    boolean success = noteRepository.updateNote(noteId, newContent);
     if (success) {
-      return Response.ok(NoteRepository.getInstance().getNote(noteId).toString()).build();
+      return Response.ok(noteRepository.getNote(noteId).toString()).build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
@@ -65,7 +65,7 @@ public class NoteResource {
   @DELETE
   @Path("/{noteId}")
   public Response deleteNote(@PathParam("noteId") int noteId) {
-    boolean success = NoteRepository.getInstance().deleteNote(noteId);
+    boolean success = noteRepository.deleteNote(noteId);
     if (success) {
       return Response.noContent().build();
     } else {

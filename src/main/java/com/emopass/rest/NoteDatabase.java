@@ -22,17 +22,8 @@ public class NoteDatabase implements NoteDatastore {
   private static final String CONTENT_KEY = "content";
   private Connection db = null;
 
-  private NoteDatabase() {
+  public NoteDatabase() {
 
-  }
-
-  private static NoteDatabase INSTANCE;
-
-  public static NoteDatabase getInstance() {
-    if (INSTANCE == null) {
-      INSTANCE = new NoteDatabase();
-    }
-    return INSTANCE;
   }
 
   public void connect() {
