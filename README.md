@@ -1,5 +1,9 @@
 ## REST webservice with Gradle
-A simple example associated with [my blog post](http://emo-pass.com/2017/12/12/setting-up-java-rest-webservice-with-gradle/).
+A simple example associated with [my blog post](http://emo-pass.com/2017/12/12/setting-up-java-rest-webservice-with-gradle/).  
+
+In this project, PostgreSQL database is used to persist data. 
+So, make sure to install it and replace your own database credentials in `NoteDatabase.java` file.
+That is my mistake to make it more completed. 
 
 ### Run
 ```bash

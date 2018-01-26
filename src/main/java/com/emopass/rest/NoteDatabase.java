@@ -2,6 +2,7 @@ package com.emopass.rest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -82,7 +83,8 @@ public class NoteDatabase implements NoteDatastore {
     List<Note> notes = new ArrayList<>();
     try {
       Statement query = db.createStatement();
-      ResultSet resultSet = query.executeQuery("SELECT * FROM " + TABLE_NAME);
+      ResultSet resultSet =
+          query.executeQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + ID_KEY);
       while (resultSet.next()) {
         int id = resultSet.getInt(ID_KEY);
         String content = resultSet.getString(CONTENT_KEY);
@@ -99,12 +101,25 @@ public class NoteDatabase implements NoteDatastore {
 
   @Override
   public int addNote(String content) {
+    String insertSql =
+        "INSERT INTO " + TABLE_NAME + "(" + CONTENT_KEY + ") VALUES ('" + content + "')";
     try {
-      Statement statement = db.createStatement();
-      int row = statement.executeUpdate(
-          "INSERT INTO " + TABLE_NAME + "(" + CONTENT_KEY + ") VALUES ('" + content + "')");
-      statement.close();
-      return row;
+      PreparedStatement statement = db.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+      int affectedRows = statement.executeUpdate();
+
+      if (affectedRows == 0) {
+        throw new SQLException("Creating note failed, no rows affected.");
+      }
+
+      try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+        if (generatedKeys.next()) {
+          int row = generatedKeys.getInt(1);
+          statement.close();
+          return row;
+        } else {
+          throw new SQLException("Creating note failed, no ID obtained.");
+        }
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
