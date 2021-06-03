@@ -3,7 +3,7 @@ A simple example associated with [my blog post](http://emo-pass.com/2017/12/12/s
 
 In this project, PostgreSQL database is used to persist data. 
 So, make sure to install it and replace your own database credentials in `NoteDatabase.java` file.
-That is my mistake to make it more completed. 
+I am sorry for making it more complex than it was expected. 
 
 ### Run
 ```bash
